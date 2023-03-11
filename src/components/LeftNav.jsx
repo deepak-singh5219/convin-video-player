@@ -1,13 +1,33 @@
-import React, { useContext } from "react";
+import React, { useEffect,useContext } from "react";
 import { useNavigate } from "react-router-dom";
-
+import { BiCategoryAlt } from 'react-icons/bi';
+import { AiOutlineHistory } from 'react-icons/ai';
 import LeftNavMenuItem from "./LeftNavMenuItem";
-import { categories } from "../utils/constants";
 import { Context } from "../context/contextApi";
+import { v4 as uuidv4 } from 'uuid';
+import { addBucket } from "../Redux/Actions/actions";
+import { useSelector,useDispatch } from "react-redux";
+import { FiEdit } from "react-icons/fi";
+import { toast } from "react-hot-toast";
+
+
 
 const LeftNav = () => {
     const { selectedCategory, setSelectedCategory, mobileMenu } =
         useContext(Context);
+        const buckets = useSelector(state => state.buckets);    
+
+    const dispatch = useDispatch();    
+    const addNewCategory = () => {
+            const name = prompt("Enter Bucket Name");
+            if(name)
+            {
+                dispatch(addBucket({name, type:"category", cards:[], id:uuidv4()}));
+                return;
+            }
+            toast.error('Name Missing!');
+            
+        }
 
     const navigate = useNavigate();
 
@@ -19,10 +39,19 @@ const LeftNav = () => {
                 return setSelectedCategory(name);
             case "menu":
                 return false;
+            case "custom":
+                {
+                    addNewCategory();
+                    return setSelectedCategory(name);    
+                }
+            case "history": return setSelectedCategory(name);    
             default:
                 break;
         }
     };
+
+    const addNewButton = { name:"Add New Category", icon:<FiEdit/>, type:"custom", divider:true}
+    const historyButton = { name:"History", icon:<AiOutlineHistory/>, type:"history", divider:true}
 
     return (
         <div
@@ -31,31 +60,74 @@ const LeftNav = () => {
             }`}
         >
             <div className="flex px-5 flex-col">
-                {categories.map((item) => {
-                    return (
-                        <React.Fragment key={item.name}>
+            <React.Fragment>
                             <LeftNavMenuItem
-                                text={item.type === "home" ? "Home" : item.name}
-                                icon={item.icon}
+                                text={addNewButton.name}
+                                icon={addNewButton.icon}
+                                type={addNewButton.type}
                                 action={() => {
-                                    clickHandler(item.name, item.type);
-                                    navigate("/");
+                                    clickHandler(addNewButton.name, addNewButton.type);
                                 }}
                                 className={`${
-                                    selectedCategory === item.name
+                                    selectedCategory === addNewButton.name
                                         ? "bg-white/[0.15]"
                                         : ""
                                 }`}
                             />
-                            {item.divider && (
+                            {addNewButton.divider && (
                                 <hr className="my-5 border-white/[0.2]" />
                             )}
                         </React.Fragment>
-                    );
-                })}
-                <hr className="my-5 border-white/[0.2]" />
-                <div className="text-white/[0.5] text-[12px]">
-                    Clone by: JS Dev Hindi
+
+                { 
+                    buckets?.map((bucket) => {
+                        return (
+                            <React.Fragment key={bucket.id}>
+                            <LeftNavMenuItem
+                                text={bucket.name}
+                                icon={<BiCategoryAlt/>}
+                                bucket={bucket}
+                                action={() => {
+                                    clickHandler(bucket.name, bucket.type);
+                                    navigate(`/category/${bucket.id}`);
+                                }}
+                                className={`${
+                                    selectedCategory === bucket.name
+                                        ? "bg-white/[0.15]"
+                                        : ""
+                                }`}
+                            />
+                        
+                        </React.Fragment>
+
+                        
+                        
+                        )
+                    })
+                }    
+
+                 <React.Fragment>
+                            <LeftNavMenuItem
+                                text={historyButton.name}
+                                icon={historyButton.icon}
+                                type={historyButton.type}
+                                action={() => {
+                                    clickHandler(historyButton.name, historyButton.type);
+                                    navigate(`/history`);
+                                }}
+                                className={`${
+                                    selectedCategory === historyButton.name
+                                        ? "bg-white/[0.15]"
+                                        : ""
+                                }`}
+                            />
+                            {historyButton.divider && (
+                                <hr className="my-5 border-white/[0.2]" />
+                            )}
+                        </React.Fragment>
+    
+                <div className="text-white/[0.5] mt-12 text-[12px]">
+                Convin Frontend Assignment
                 </div>
             </div>
         </div>
