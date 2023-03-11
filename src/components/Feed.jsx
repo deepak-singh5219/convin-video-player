@@ -4,10 +4,12 @@ import { Context } from "../context/contextApi";
 import LeftNav from "./LeftNav";
 import VideoCard from "./VideoCard";
 import { useSelector,useDispatch } from "react-redux";
-import { addCard, deleteMultipleCards } from "../Redux/Actions/actions";
+import { addCard, deleteMultipleCards, setInitialData } from "../Redux/Actions/actions";
 import { v4 as uuidv4 } from 'uuid';
 import { toast } from "react-hot-toast";
 import SelectCategory from "./SelectCategory";
+import axios from "axios";
+
 
 
 
@@ -16,7 +18,7 @@ import SelectCategory from "./SelectCategory";
 
 
 const Feed = () => {
-    const { loading, selectionMode, toggleSelection, setSelectedIds, selectedIds } = useContext(Context);
+    const { loading, setLoading, fetchDatabaseData, selectionMode, toggleSelection, setSelectedIds, selectedIds } = useContext(Context);
     const buckets = useSelector(state => state.buckets);
     const [videos,setVideos] = useState([]);
     
@@ -25,12 +27,31 @@ const Feed = () => {
 
     useEffect(() => {
         document.getElementById("root").classList.remove("custom-h");
+        updateData();
         const bucketIndex = buckets.findIndex(bucket => bucket.id === id);
-        console.log(buckets[bucketIndex]);
         if(buckets.length>0)
         setVideos(buckets[bucketIndex]?.cards);
-        console.log("Buckets",buckets); 
     }, [id,buckets]);
+
+    useEffect(() => {
+        fetchDatabaseData();
+    },[]);
+
+
+    const updateData = async () => {
+       try {
+        await axios.put('http://localhost:4000/updateBuckets', {"buckets":JSON.stringify(buckets)},
+        {
+            headers: {
+                'Content-Type': 'application/json'
+              }
+        })
+       } catch (error) {
+        console.log(error); 
+       }
+
+    }
+
     
     const addNewCard = () => {
         if(!id){
