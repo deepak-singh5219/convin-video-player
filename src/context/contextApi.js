@@ -42,7 +42,7 @@ export const AppContext = (props) => {
     const fetchDatabaseData = async () => {
         try {
             setLoading(true);
-            const res = await axios.get('http://localhost:4000/buckets');
+            const res = await axios.get('https://convin-video-player-api.onrender.com/buckets');
             const dbBuckets = JSON.parse(res.data.bucketDocument.buckets);
              dispatch(setInitialData(dbBuckets));
             setLoading(false);

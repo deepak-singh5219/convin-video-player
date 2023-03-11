@@ -40,7 +40,7 @@ const Feed = () => {
 
     const updateData = async () => {
        try {
-        await axios.put('http://localhost:4000/updateBuckets', {"buckets":JSON.stringify(buckets)},
+        await axios.put('https://convin-video-player-api.onrender.com/updateBuckets', {"buckets":JSON.stringify(buckets)},
         {
             headers: {
                 'Content-Type': 'application/json'
