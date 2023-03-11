@@ -1,7 +1,7 @@
 import React, { useContext, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 
-import ytLogo from "../images/yt-logo.png";
+import convin from "../images/convin.png";
 import ytLogoMobile from "../images/yt-logo-mobile.png";
 
 import { SlMenu } from "react-icons/sl";
@@ -53,20 +53,16 @@ const Header = () => {
                         )}
                     </div>
                 )}
-                <Link to="/" className="flex h-5 items-center">
+                <Link to="/" className="flex h-8 items-center">
                     <img
-                        className="h-full hidden dark:md:block"
-                        src={ytLogo}
-                        alt="Youtube"
+                        className="w-full h-full dark:block"
+                        src={convin}
+                        alt="Convin"
                     />
-                    <img
-                        className="h-full md:hidden"
-                        src={ytLogoMobile}
-                        alt="Youtube"
-                    />
+                    
                 </Link>
             </div>
-            <div className="group flex items-center">
+            <div className="hidden group md:flex items-center">
                 <div className="flex h-8 md:h-10 md:ml-10 md:pl-5 border border-[#303030] rounded-l-3xl group-focus-within:border-blue-500 md:group-focus-within:ml-5 md:group-focus-within:pl-0">
                     <div className="w-10 items-center justify-center hidden group-focus-within:md:flex">
                         <IoIosSearch className="text-white text-xl" />
@@ -88,14 +84,7 @@ const Header = () => {
                 </button>
             </div>
             <div className="flex items-center">
-                <div className="hidden md:flex">
-                    <div className="flex items-center justify-center h-10 w-10 rounded-full hover:bg-[#303030]/[0.6]">
-                        <RiVideoAddLine className="text-white text-xl cursor-pointer" />
-                    </div>
-                    <div className="flex items-center justify-center ml-2 h-10 w-10 rounded-full hover:bg-[#303030]/[0.6]">
-                        <FiBell className="text-white text-xl cursor-pointer" />
-                    </div>
-                </div>
+                
                 <div className="flex h-8 w-8 overflow-hidden rounded-full md:ml-4">
                     <img src="https://xsgames.co/randomusers/assets/avatars/female/67.jpg" />
                 </div>
