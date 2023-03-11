@@ -1,4 +1,9 @@
-import React, { createContext, useState, useEffect } from "react";
+import axios from "axios";
+import React,{ createContext, useState, useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { setInitialData } from "../Redux/Actions/actions";
+
+
 export const Context = createContext();
 
 export const AppContext = (props) => {
@@ -9,7 +14,7 @@ export const AppContext = (props) => {
     const [selectionMode,setSelectionMode] = useState(false);
     const [moveCategoryId,setMoveCategoryId] = useState('');
     const [historyCards,setHistoryCards] = useState([]);
-
+    const dispatch = useDispatch();
 
     const toggleSelection = () => {
         setSelectionMode(!selectionMode);
@@ -34,6 +39,18 @@ export const AppContext = (props) => {
         )
     }
 
+    const fetchDatabaseData = async () => {
+        try {
+            setLoading(true);
+            const res = await axios.get('http://localhost:4000/buckets');
+            const dbBuckets = JSON.parse(res.data.bucketDocument.buckets);
+             dispatch(setInitialData(dbBuckets));
+            setLoading(false);
+         } catch (error) {
+            console.log(error);  
+         }
+    }
+
     return (
         <Context.Provider
             value={{
@@ -51,7 +68,8 @@ export const AppContext = (props) => {
                 moveCategoryId,
                 setMoveCategoryId,
                 selectHistoryCards,
-                historyCards
+                historyCards,
+                fetchDatabaseData
             }}
         >
             {props.children}

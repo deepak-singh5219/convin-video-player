@@ -1,5 +1,7 @@
 import { toast } from "react-hot-toast";
-import { ADD_CARD, EDIT_CARD, DELETE_CARD, ADD_BUCKET, EDIT_BUCKET, DELETE_BUCKET, DELETE_MULTIPLE_CARDS, MOVE_CARDS } from "../ActionTypes/actionTypes";
+import { ADD_CARD, EDIT_CARD, DELETE_CARD, ADD_BUCKET, EDIT_BUCKET, DELETE_BUCKET, DELETE_MULTIPLE_CARDS, MOVE_CARDS, SET_INITIAL_DATA } from "../ActionTypes/actionTypes";
+import axios from "axios";
+
 const initialState = {
     buckets: [],
   };
@@ -93,6 +95,14 @@ const reducer = (state = initialState, action) => {
               ...state,
               buckets,
             };
+          }
+          case SET_INITIAL_DATA:{
+            const { buckets } = action.payload;
+            return {
+              ...state,
+                 buckets
+            }
+
           }
       default: return state    
     }

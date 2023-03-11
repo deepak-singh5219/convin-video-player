@@ -1,4 +1,4 @@
-import { ADD_CARD, DELETE_MULTIPLE_CARDS, EDIT_CARD, DELETE_CARD, ADD_BUCKET, EDIT_BUCKET, DELETE_BUCKET, MOVE_CARDS } from "../ActionTypes/actionTypes";
+import { ADD_CARD, DELETE_MULTIPLE_CARDS, EDIT_CARD, DELETE_CARD, ADD_BUCKET, EDIT_BUCKET, DELETE_BUCKET, MOVE_CARDS, SET_INITIAL_DATA } from "../ActionTypes/actionTypes";
 
 // Action creator for adding a card
 export const addCard = (bucketId, card) => ({
@@ -47,3 +47,12 @@ export const deleteBucket = (bucketId) => ({
       payload: {sourceBucketId, destinationBucketId, cardIds}
     };
   };  
+
+  // database calls
+
+  export const setInitialData = (buckets) => {
+    return{
+      type: SET_INITIAL_DATA,
+      payload: {buckets}
+    }
+  }

@@ -9,3 +9,6 @@ export const MOVE_CARDS = "MOVE_CARDS";
 export const ADD_BUCKET = 'ADD_BUCKET';
 export const EDIT_BUCKET = 'EDIT_BUCKET';
 export const DELETE_BUCKET = 'DELETE_BUCKET';
+
+// Database calls
+export const SET_INITIAL_DATA = 'SET_INITIAL_DATA';
