@@ -18,7 +18,7 @@ import axios from "axios";
 
 
 const Feed = () => {
-    const { loading, setLoading, fetchDatabaseData, selectionMode, toggleSelection, setSelectedIds, selectedIds } = useContext(Context);
+    const { loading, setLoading, fetchStatus, fetchDatabaseData, selectionMode, toggleSelection, setSelectedIds, selectedIds } = useContext(Context);
     const buckets = useSelector(state => state.buckets);
     const [videos,setVideos] = useState([]);
     
@@ -27,10 +27,9 @@ const Feed = () => {
 
     useEffect(() => {
         document.getElementById("root").classList.remove("custom-h");
-        setTimeout(() => {
-            updateData(); 
-        }, 1000);
-        
+        if(fetchStatus) {
+            updateData();
+        }
         const bucketIndex = buckets.findIndex(bucket => bucket.id === id);
         if(buckets.length>0)
         setVideos(buckets[bucketIndex]?.cards);

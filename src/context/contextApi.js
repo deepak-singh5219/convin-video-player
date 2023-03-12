@@ -14,6 +14,7 @@ export const AppContext = (props) => {
     const [selectionMode,setSelectionMode] = useState(false);
     const [moveCategoryId,setMoveCategoryId] = useState('');
     const [historyCards,setHistoryCards] = useState([]);
+    const [fetchStatus,setFetchStatus] = useState(false);
     const dispatch = useDispatch();
 
     const toggleSelection = () => {
@@ -44,7 +45,8 @@ export const AppContext = (props) => {
             setLoading(true);
             const res = await axios.get('https://convin-video-player-api.onrender.com/buckets');
             const dbBuckets = JSON.parse(res.data.bucketDocument.buckets);
-             dispatch(setInitialData(dbBuckets));
+            dispatch(setInitialData(dbBuckets));
+            setFetchStatus(true);
             setLoading(false);
          } catch (error) {
             console.log(error);  
@@ -69,7 +71,8 @@ export const AppContext = (props) => {
                 setMoveCategoryId,
                 selectHistoryCards,
                 historyCards,
-                fetchDatabaseData
+                fetchDatabaseData,
+                fetchStatus
             }}
         >
             {props.children}
