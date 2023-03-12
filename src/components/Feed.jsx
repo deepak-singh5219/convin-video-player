@@ -27,7 +27,10 @@ const Feed = () => {
 
     useEffect(() => {
         document.getElementById("root").classList.remove("custom-h");
-        updateData();
+        setTimeout(() => {
+            updateData(); 
+        }, 1000);
+        
         const bucketIndex = buckets.findIndex(bucket => bucket.id === id);
         if(buckets.length>0)
         setVideos(buckets[bucketIndex]?.cards);
