@@ -61,19 +61,29 @@ const Feed = () => {
             toast.error('No category Selected!!')
             return;
         }
-        const title = prompt("Enter Card Title");
-        const redirectLink = prompt("Enter Video Link");
-        const thumbnailLink = prompt("Enter thumbnail Link(optional)");
-        if(title!=="" && redirectLink!=="")
+        let title;
+        let redirectLink;
+        let thumbnailLink;
+         title = prompt("Enter Card Title");
+        if(title)
         {
-            const card = {
-                title,redirectLink,thumbnailLink,
-                id:uuidv4()
-            }
-            dispatch(addCard(id,card));
+            redirectLink = prompt("Enter Video Link");
+        }
+        if(title && redirectLink)
+        {
+            thumbnailLink = prompt("Enter thumbnail Link(optional)");
+        }
+        if(title==="" || redirectLink==="")
+        {
+            toast.error('Data Missing!');
             return;
         }
-        toast.error('Data Missing!');
+
+        const card = {
+            title,redirectLink,thumbnailLink,
+            id:uuidv4()
+        }
+        dispatch(addCard(id,card));
         
     }
 
