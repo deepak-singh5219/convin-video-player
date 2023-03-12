@@ -78,13 +78,15 @@ const Feed = () => {
             toast.error('Data Missing!');
             return;
         }
-
-        const card = {
-            title,redirectLink,thumbnailLink,
-            id:uuidv4()
-        }
-        dispatch(addCard(id,card));
         
+        if(title!=="" && redirectLink!=="")
+        {
+            const card = {
+                title,redirectLink,thumbnailLink,
+                id:uuidv4()
+            }
+            dispatch(addCard(id,card));
+        }  
     }
 
     const removeMultipleCards = () => {
